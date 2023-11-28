@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { wpquery} from "../data/wordpress";
+
+const data = await wpquery({
+	query: `
+    query LoadAllPostsExcerpts {
+      posts {
+        nodes {
+          title
+          slug
+          excerpt
+        }
+      }
+    }
+  `,
+});
+
+---
+
+<Layout title="Welcome to MatheNews.com.">
+	<main>
+		<h1 class="text-6xl text-cyan-800 text-center m-6">Posts</h1>
+		{
+			data.posts.nodes.map((post: any) => {
+				return (
+					<article class="post-preview">
+						<h2 class="text-3xl font-bold underline">
+							<a href={`/blog/${post.slug}`}>{post.title}</a>
+						</h2>
+						<Fragment set:html={post.excerpt} />
+						<a href={`/blog/${post.slug}`}>read post &rarr;</a>
+					</article>
+				);
+			})
+		}
+	</main>
+</Layout>
+
+<style>
+</style>
