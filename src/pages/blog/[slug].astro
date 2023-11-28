@@ -61,13 +61,14 @@ const { post } = Astro.props as { post: Post }
 ---
 
 <Layout title="An Example Blog Post">
-    <img
-            src={post.featuredImage.node.mediaItemUrl}
-            srcset={post.featuredImage.node.srcSet}
-            sizes={post.featuredImage.node.sizes}
-            alt={post.featuredImage.node.alt}
-    />
-
+    {post.featuredImage?.node && (
+            <img
+                    src={post.featuredImage.node.mediaItemUrl}
+                    srcSet={post.featuredImage.node.srcSet}
+                    sizes={post.featuredImage.node.sizes}
+                    alt={post.featuredImage.node.altText}
+            />
+    )}
     <h1>{post.title}</h1>
 
     <p class="byline">Written by {post.author.node.name}</p>
